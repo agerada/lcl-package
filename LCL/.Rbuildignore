@@ -1,0 +1,5 @@
+^LCL\.Rproj$
+^\.Rproj\.user$
+^LCL\.Rcheck$
+^LCL.*\.tar\.gz$
+^LCL.*\.tgz$

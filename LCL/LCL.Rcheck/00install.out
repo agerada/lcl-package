@@ -1,0 +1,17 @@
+* installing *source* package ‘LCL’ ...
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+** help
+No man pages found in package  ‘LCL’ 
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded from temporary location
+** testing if installed package can be loaded from final location
+** testing if installed package keeps a record of temporary installation path
+* DONE (LCL)
+Failed to create bus connection: No such file or directory
+Warning in system("timedatectl", intern = TRUE) :
+  running command 'timedatectl' had status 1
