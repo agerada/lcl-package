@@ -1,7 +1,8 @@
-#' Convert antibiotic codes generated from LCL telepath to full name (and vise-versa)
+#' Convert antibiotic codes generated from LCL telepath to full name (and vice-versa)
 #'
 #' @param .data A character vector of antibiotic abbreviations or names
 #' @param .clean_up Clean up and convert ambiguous names for use with AMR package:
+#'
 #' * 'Amp/Amoxil' = 'Ampicillin',
 #' * "Eryth/Clarith." = 'Erythromycin',
 #' * Ceftolozane-tazobactam' = 'Ceftolozane/tazobactam',
@@ -24,10 +25,9 @@ convert_abx <- function(.data, .clean_up = F, .abbreviate = F, .been_cleaned = F
 if (is.null(.data)) stop('No antibiotic data provided')
 if (!is.character(.data)) stop('Antibiotic data must be a character vector')
   else
-abx <- read_csv('data/abx.csv', col_types = cols(.default = 'c'))
 
 if(.abbreviate == F) {
-  abx_codes <- abx$Antibiotic_Exp
+  abx_codes <- abx_data_from_tpath$Antibiotic_Exp
 
     if(.clean_up == T) {
       abx_codes <- abx_codes %>% str_replace_all(c('Amp/Amoxil' = 'Ampicillin',
@@ -37,13 +37,13 @@ if(.abbreviate == F) {
                                                  'Pip/Tazo' = 'Piperacillin/Tazobactam'))
     }
 
-names(abx_codes) <- abx$Antibiotic_Code
+names(abx_codes) <- abx_data_from_tpath$Antibiotic_Code
 return(unname(abx_codes[.data]))
 }
 
 if(.abbreviate == T) {
   abx_codes <- NULL
-  abx_codes <- abx$Antibiotic_Code
+  abx_codes <- abx_data_from_tpath$Antibiotic_Code
 
   if (.been_cleaned == T) {
   .data <- .data %>% str_replace_all(c('Ampicillin' = 'Amp/Amoxil',
@@ -52,7 +52,7 @@ if(.abbreviate == T) {
                                                                'Ceftazidime/avibactam' = 'Caz/Avi',
                                                                'Piperacillin/Tazobactam' = 'Pip/Tazo'))
   }
-  names(abx_codes) <- abx$Antibiotic_Exp
+  names(abx_codes) <- abx_data_from_tpath$Antibiotic_Exp
   return(unname(abx_codes[.data]))
 }
 

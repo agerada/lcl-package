@@ -2,7 +2,7 @@
 % Please edit documentation in R/convert_abx.R
 \name{convert_abx}
 \alias{convert_abx}
-\title{Convert antibiotic codes generated from LCL telepath to full name (and vise-versa)}
+\title{Convert antibiotic codes generated from LCL telepath to full name (and vice-versa)}
 \usage{
 convert_abx(.data, .clean_up = F, .abbreviate = F, .been_cleaned = F)
 }
@@ -23,7 +23,7 @@ convert_abx(.data, .clean_up = F, .abbreviate = F, .been_cleaned = F)
 \item{.been_cleaned}{Set as TRUE if the antibiotic names have been "cleaned up" with .clean_up}
 }
 \description{
-Convert antibiotic codes generated from LCL telepath to full name (and vise-versa)
+Convert antibiotic codes generated from LCL telepath to full name (and vice-versa)
 }
 \examples{
 abx_list <- c('AML', 'CIP', 'P/T')
