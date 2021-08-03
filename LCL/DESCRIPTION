@@ -1,6 +1,6 @@
 Package: LCL
 Title: Tools for use with LCL Telepath
-Version: 0.15
+Version: 0.2
 Authors@R: 
     person(given = "Alessandro",
            family = "Gerada",
@@ -16,6 +16,8 @@ RoxygenNote: 7.1.0
 Imports: 
     magrittr, 
     stringr, 
-    readr
+    readr, 
+    RODBC, 
+    AMR
 Depends: 
     R (>= 2.10)

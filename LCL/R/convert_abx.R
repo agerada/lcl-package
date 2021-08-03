@@ -1,4 +1,4 @@
-#' Convert antibiotic codes generated from LCL telepath to full name (and vice-versa)
+#' Convert antibiotic codes generated from LCL telepath to full name (and vice-versa). This
 #'
 #' @param .data A character vector of antibiotic abbreviations or names
 #' @param .clean_up Clean up and convert ambiguous names for use with AMR package:
