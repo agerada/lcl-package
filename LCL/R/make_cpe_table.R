@@ -19,54 +19,54 @@ make_cpe_table <- function(cpe_data, genotypes = list('OXA48', 'KPC', 'NDM', 'VI
   results <- dplyr::tibble(antibiotic = names(cpe_data_na_dropped[,AMR::is.rsi.eligible(cpe_data_na_dropped)]))
   for (gen in genotypes) {
     filtered_temp_data <- cpe_data_na_dropped %>%
-      dplyr::filter(str_detect(com_code, gen)) %>%
-      dplyr::mutate_if(is.rsi.eligible, as.rsi)
+      dplyr::filter(stringr::str_detect(com_code, gen)) %>%
+      dplyr::mutate_if(AMR::is.rsi.eligible, AMR::as.rsi)
 
     temp_out <-
       filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x), AMR::count_all(.x)), ~ AMR::susceptibility(.x, as_percent = T, minimum = 1)) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_susceptibility'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_susceptibility'))
 
     results <- dplyr::left_join(results, temp_out)
 
     temp_out <- filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x), AMR::count_all(.x)), ~ paste0(AMR::count_SI(.x), '/', AMR::count_all(.x))) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_proportion'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_proportion'))
 
     results <- dplyr::left_join(results, temp_out)
 
     temp_out <-
       filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x)), AMR::count_all) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_n'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_n'))
 
     results <- dplyr::left_join(results, temp_out)
 
     temp_out <-
       filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x), AMR::count_all(.x)), AMR::count_SI) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_n_susceptible'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_n_susceptible'))
 
     results <- dplyr::left_join(results, temp_out)
 
     temp_out <-
       filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x), AMR::count_all(.x), AMR::count_SI(.x)), function(.x) paste0(round(stats::prop.test(AMR::count_SI(.x), AMR::count_all(.x), p = 0.95)$conf.int[[1]] * 100, 1), '%')) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_lower_bound'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_lower_bound'))
 
     results <- dplyr::left_join(results, temp_out)
 
     temp_out <-
       filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x), AMR::count_all(.x), AMR::count_SI(.x)), ~ paste0(round(stats::prop.test(AMR::count_SI(.x), AMR::count_all(.x), p = 0.95)$conf.int[[2]] * 100, 1), '%')) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_upper_bound'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_upper_bound'))
 
     results <- dplyr::left_join(results, temp_out)
 
     # add merged column of susceptible/n
     temp_out <- filtered_temp_data %>%
       dplyr::summarise_if(~ all(AMR::is.rsi(.x), AMR::count_all(.x)), ~ paste0(AMR::count_SI(.x), '/', AMR::count_all(.x))) %>%
-      dplyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_proportion'))
+      tidyr::pivot_longer(cols = dplyr::everything(), names_to = 'antibiotic', values_to = paste0(gen, '_proportion'))
 
     results <- dplyr::left_join(results, temp_out)
   }

@@ -7,7 +7,8 @@
 make_cpe_flextable(
   x,
   drop_abx = NULL,
-  genotypes = list("OXA48", "KPC", "NDM", "VIM", "IMP")
+  genotypes = list("OXA48", "KPC", "NDM", "VIM", "IMP"),
+  date_vector = NULL
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ make_cpe_flextable(
 \item{drop_abx}{If specified, a character vector of antibiotics to drop. Default NULL.}
 
 \item{genotypes}{A list of genotypes (string format) of interest. Defaults to the big five: OXA48, KPC, NDM, VIM, IMP. Ensure that this matches the genotypes in the data input.}
+
+\item{date_vector}{A vector of dates that the samples correspond to. The function will use this for minimum and maximum dates for the date range of the table.}
 }
 \description{
 This function takes data imported using LCL::pull_data that has undergone the following cleanup steps:
@@ -32,7 +35,8 @@ cpe_flex_table <- make_cpe_flextable(cpe_table,
          drop_abx = c('Cefuroxime', 'Ceftriaxone', 'Doxycycline', 'Meropenem',
          'Ertapenem', 'Teicoplanin', 'Vancomycin', 'Clindamycin', 'Erythromycin',
          'Linezolid', 'Rifampicin', 'Fusidic acid'),
-          genotypes = list('OXA48', 'KPC'))
+          genotypes = list('OXA48', 'KPC'),
+          date_vector = cpe_clean$date_collected)
 }
 \keyword{cleaning,}
 \keyword{cpe}

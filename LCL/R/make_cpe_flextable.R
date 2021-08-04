@@ -7,6 +7,7 @@
 #' @param x A data frame or tibble in the format created using LCL::make_cpe_table
 #' @param drop_abx If specified, a character vector of antibiotics to drop. Default NULL.
 #' @param genotypes A list of genotypes (string format) of interest. Defaults to the big five: OXA48, KPC, NDM, VIM, IMP. Ensure that this matches the genotypes in the data input.
+#' @param date_vector A vector of dates that the samples correspond to. The function will use this for minimum and maximum dates for the date range of the table.
 #' @keywords cpe, data cleaning, cpe table
 #' @export
 #' @examples
@@ -19,9 +20,13 @@
 #'          drop_abx = c('Cefuroxime', 'Ceftriaxone', 'Doxycycline', 'Meropenem',
 #'          'Ertapenem', 'Teicoplanin', 'Vancomycin', 'Clindamycin', 'Erythromycin',
 #'          'Linezolid', 'Rifampicin', 'Fusidic acid'),
-#'           genotypes = list('OXA48', 'KPC'))
+#'           genotypes = list('OXA48', 'KPC'),
+#'           date_vector = cpe_clean$date_collected)
 
-make_cpe_flextable <- function(x, drop_abx = NULL, genotypes = list('OXA48', 'KPC', 'NDM', 'VIM', 'IMP')){ # only takes in OXA48,KPC,NDM,VIM
+make_cpe_flextable <- function(x,
+                               drop_abx = NULL,
+                               genotypes = list('OXA48', 'KPC', 'NDM', 'VIM', 'IMP'),
+                               date_vector = NULL){
   # drop unwanted rows
   x <- x %>% dplyr::select(!dplyr::ends_with('_n') & !dplyr::ends_with('_n_susceptible'))
 
@@ -43,12 +48,16 @@ make_cpe_flextable <- function(x, drop_abx = NULL, genotypes = list('OXA48', 'KP
   flex_cpe <- flextable::add_footer_row(flex_cpe, values = c('Yellow', '=> 50% susceptible with poor certainty (< 50% lower 95% confidence interval)'), colwidths = c(1, 4 * length(genotypes)), top = FALSE)
 
   # add caveats
-  flex_cpe <- flextable::compose(flex_cpe, i = flex_cpe$body$dataset$antibiotic == 'Tigecycline', j = 1, as_paragraph(as_chunk('Tigecycline *')), part = 'body')
+  flex_cpe <- flextable::compose(flex_cpe, i = flex_cpe$body$dataset$antibiotic == 'Tigecycline', j = 1, flextable::as_paragraph(flextable::as_chunk('Tigecycline *')), part = 'body')
   flex_cpe <- flextable::add_footer_lines(flex_cpe, values = ' * breakpoints only reported for E. coli')
   flex_cpe <- flextable::bg(flex_cpe, i = 1, j = 1, bg = 'green', part = 'footer')
   flex_cpe <- flextable::bg(flex_cpe, i = 2, j = 1, bg = 'yellow', part = 'footer')
   flex_cpe <- flextable::align(flex_cpe, i = c(1,2), j = 1, align = 'right', part = 'footer')
-  flex_cpe <- flextable::add_footer_lines(flex_cpe, values = glue::glue("Date range {min(lubridate::date(cpe_cleaned$date_collected))} to {max(lubridate::date(cpe_cleaned$date_collected))}"))
+
+  if(!is.null(date_vector)){
+    flex_cpe <- flextable::add_footer_lines(flex_cpe,
+                                            values = glue::glue("Date range {min(lubridate::date(date_vector))} to {max(lubridate::date(date_vector))}"))
+  }
 
   for(gen in genotypes){
     susc <<- paste0(gen, '_susceptibility')
@@ -60,7 +69,7 @@ make_cpe_flextable <- function(x, drop_abx = NULL, genotypes = list('OXA48', 'KP
   }
 
   flex_cpe <- flextable::border_outer(flex_cpe, part = 'body')
-  flex_cpe <- flextable::border_inner_h(flex_cpe, border = fp_border(color="gray", width = 1), part = 'body')
+  flex_cpe <- flextable::border_inner_h(flex_cpe, border = officer::fp_border(color="gray", width = 1), part = 'body')
   flex_cpe <- flextable::vline(flex_cpe, j = seq(from = 1, to = length(genotypes) * 4, by = 4), part = 'body')
 
   flex_cpe
