@@ -17,9 +17,9 @@
 #' cpe_table <- make_cpe_table(cpe_clean, genotypes = list('OXA48', 'KPC'))
 #' cpe_flex_table <- make_cpe_flextable(cpe_table,
 #'          drop_abx = c('Cefuroxime', 'Ceftriaxone', 'Doxycycline', 'Meropenem',
-#'          Ertapenem', 'Teicoplanin', 'Vancomycin', 'Clindamycin', 'Erythromycin',
-#'          Linezolid', 'Rifampicin', 'Fusidic acid'),
-#'          genotypes = list('OXA48', 'KPC'))
+#'          'Ertapenem', 'Teicoplanin', 'Vancomycin', 'Clindamycin', 'Erythromycin',
+#'          'Linezolid', 'Rifampicin', 'Fusidic acid'),
+#'           genotypes = list('OXA48', 'KPC'))
 
 make_cpe_flextable <- function(x, drop_abx = NULL, genotypes = list('OXA48', 'KPC', 'NDM', 'VIM', 'IMP')){ # only takes in OXA48,KPC,NDM,VIM
   # drop unwanted rows
