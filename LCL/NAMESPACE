@@ -3,5 +3,6 @@
 export(clean_up)
 export(convert_abx)
 export(convert_org)
+export(make_cpe_flextable)
 export(make_cpe_table)
 export(pull_data)

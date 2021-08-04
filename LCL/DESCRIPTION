@@ -1,6 +1,6 @@
 Package: LCL
 Title: Tools for use with LCL Telepath
-Version: 0.2
+Version: 0.3
 Authors@R: 
     person(given = "Alessandro",
            family = "Gerada",
@@ -18,6 +18,9 @@ Imports:
     stringr, 
     readr, 
     RODBC, 
-    AMR
+    AMR, 
+    flextable, 
+    glue, 
+    lubridate
 Depends: 
     R (>= 2.10)
