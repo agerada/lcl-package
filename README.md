@@ -15,5 +15,9 @@ You can see all the functions/data provided by the package using LCL:: in R.
 Currently has the following available: 
 - **LCL::convert_org** converts organism codes (e.g. STAU) from telepath to their full name (e.g. *Staphylococcus aureus* (can also clean up data for use with AMR package)
 - **LCL::convert_abx** converts antibiotic codes (e.g. AML) from telepath to their full name (e.g. Amoxicillin). Again can do some cleaning for use with AMR package. 
+- **LCL::pull_data** pulls data from a "list-of-lists" Access database
+- **LCL::clean_up** cleans up data from pull_data() using AMR package
+- **LCL::make_cpe_table** makes CPE summary table using data from clean_up() as input
+- **LCL::make_cpe_flextable** formats CPE summary table using Flextable package, usin data from make_cpe_table() as input 
 - **org_data_from_telepath** tibble of organism codes and full names
 - **abx_data_from_telepath** tibble of antibiotic codes and full names
