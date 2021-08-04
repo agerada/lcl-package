@@ -15,7 +15,7 @@
 #' @examples
 #' db <- RODBC::odbcConnectAccess2007('list_of_lists_db.accdb')
 #' oxa <- pull_data(db, where_clause = "com_code Like '%OXA%'", limit = 0)
-#' odbcClose(db)
+#' RODBC::odbcClose(db)
 #' oxa_clean <- clean_up(oxa)
 
 clean_up <- function(x){
@@ -24,13 +24,13 @@ clean_up <- function(x){
   # Copy values of AML into AMP and CTX into CRO
   if(("AML" %in% names(x)) && ("AMP" %in% names(x))){
     message("Merging AML into AMP")
-    x$AMP <- if_else(is.na(x$AMP), x$AML, x$AMP)
+    x$AMP <- ifelse(is.na(x$AMP), x$AML, x$AMP)
     x <- subset(x, select = -AML)
   }
 
   if(("CRO" %in% names(x)) && ("CTX" %in% names(x))){
     message("Merging CTX into CRO")
-    x$CRO <- if_else(is.na(x$CRO), x$CTX, x$CRO)
+    x$CRO <- ifelse(is.na(x$CRO), x$CTX, x$CRO)
     x <- subset(x, select = -CTX)
   }
 
@@ -42,7 +42,7 @@ clean_up <- function(x){
   }
 
   for(i in seq_along(x)){
-    if(!is.na(convert_abx(names(x)[i]))){
+    if(!is.na(LCL::convert_abx(names(x)[i]))){
       message(paste("Converting", names(x)[i]))
       x[[i]] <- as.character(x[[i]]) # convert to char in case incorrect import
       names(x)[i] <- convert_abx(names(x)[i], .clean_up = T)

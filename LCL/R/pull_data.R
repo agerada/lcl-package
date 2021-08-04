@@ -11,7 +11,7 @@
 #' @examples
 #' db <- RODBC::odbcConnectAccess2007('list_of_lists_db.accdb')
 #' oxa <- pull_data(db, where_clause = "com_code Like '%OXA%'", limit = 0)
-#' odbcClose(db)
+#' RODBC::odbcClose(db)
 
 
 pull_data <- function(database = NULL,
@@ -48,5 +48,5 @@ FROM (tPatients INNER JOIN tSamples ON tPatients.[num_hospital] = tSamples.[num_
     query <- paste0(query, "WHERE ", where_clause)
   }
 
-  return(sqlQuery(database, query))
+  return(RODBC::sqlQuery(database, query))
 }

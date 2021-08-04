@@ -28,7 +28,7 @@ Pull data from Access database in list-of-lists format
 \examples{
 db <- RODBC::odbcConnectAccess2007('list_of_lists_db.accdb')
 oxa <- pull_data(db, where_clause = "com_code Like '\%OXA\%'", limit = 0)
-odbcClose(db)
+RODBC::odbcClose(db)
 }
 \keyword{access}
 \keyword{data}

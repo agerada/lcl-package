@@ -18,7 +18,7 @@ uses it to generate a CPE summary table.
 \examples{
 db <- RODBC::odbcConnectAccess2007('list_of_lists_db.accdb')
 cpe <- pull_data(db, where_clause = "com_code Like '\%OXA\%' OR com_code Like '\%KPC\%'", limit = 0)
-odbcClose(db)
+RODBC::odbcClose(db)
 cpe_clean <- clean_up(cpe)
 cpe_table <- make_cpe_table(cpe_clean, genotypes = list('OXA48', 'KPC'))
 }

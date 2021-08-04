@@ -30,7 +30,7 @@ if(.abbreviate == F) {
   abx_codes <- abx_data_from_tpath$Antibiotic_Exp
 
     if(.clean_up == T) {
-      abx_codes <- abx_codes %>% str_replace_all(c('Amp/Amoxil' = 'Ampicillin',
+      abx_codes <- abx_codes %>% stringr::str_replace_all(c('Amp/Amoxil' = 'Ampicillin',
                                                  "Eryth/Clarith." = 'Erythromycin',
                                                  'Ceftolozane-tazobactam' = 'Ceftolozane/tazobactam',
                                                  'Caz/Avi' = 'Ceftazidime/avibactam',
@@ -46,7 +46,7 @@ if(.abbreviate == T) {
   abx_codes <- abx_data_from_tpath$Antibiotic_Code
 
   if (.been_cleaned == T) {
-  .data <- .data %>% str_replace_all(c('Ampicillin' = 'Amp/Amoxil',
+  .data <- .data %>% stringr::str_replace_all(c('Ampicillin' = 'Amp/Amoxil',
                                                                'Erythromycin' = "Eryth/Clarith.",
                                                                'Ceftolozane/tazobactam' = 'Ceftolozane-tazobactam',
                                                                'Ceftazidime/avibactam' = 'Caz/Avi',
@@ -58,9 +58,3 @@ if(.abbreviate == T) {
 
 }
 
-#orgs <- read_csv('orgs.csv')
-#orgs$Expansion <- str_remove_all(orgs$Expansion, ' sp.*| \\(.*')
-#orgs$Expansion <- str_replace_all(orgs$Expansion, c('Dermobacter' = 'Dermabacter'))
-
-#org_codes <- orgs$Expansion
-#names(org_codes) <- orgs$Code

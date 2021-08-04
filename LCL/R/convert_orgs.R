@@ -33,7 +33,7 @@ convert_org <- function(.data, .clean_up = F, .abbreviate = F) {
       org_codes <- org_data_from_tpath$Expansion
 
       if(.clean_up == T) {
-        org_codes <- org_codes %>% str_replace_all(., c('Diphtheroids' = 'Corynebacterium',
+        org_codes <- org_codes %>% stringr::str_replace_all(., c('Diphtheroids' = 'Corynebacterium',
                                                         'Dermobacter' = 'Dermabacter',
                                                         'Lactose fermenting coliform' = 'E. coli',
                                                         'Mixed anaerobes' = 'Bacteroides',
